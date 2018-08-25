@@ -3,12 +3,11 @@ var socket = io();
 
 socket.on('connect', function () {
   console.log('Connected to server');
-
   // First argument is event name & second one is data
-  socket.emit('createMessage', {
+  /* socket.emit('createMessage', {
     from: 'palak@example.com',
     text: 'Hey, this is for testing'
-  });
+  }); */
 });
 
 socket.on('disconnect', function () {
