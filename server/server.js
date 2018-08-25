@@ -3,42 +3,31 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
+const {generateMessage} = require('./utils/message');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 const app = express();
-var server = http.createServer(app); /* Earlier we were running server using app.listen. Now we have to incorporate socket.io with oor web Server. This can be done as follows */
+
+/* Earlier we were running server using app.listen.
+  Now we have to incorporate socket.io with oor web Server.
+  This can be done as follows */
+var server = http.createServer(app);
 var io = socketIO(server);
-app.use(express.static(publicPath)); // app.user(express.static(__dirname + '/../public'))
+
+// app.user(express.static(__dirname + '/../public'))
+app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
   console.log('New user connected');
 
-  // First argument is event name & second one is data
-  // socket.emit "emits" to a single connection
-  // socket.emit from Admin text Welcome to the chat app
-  socket.emit('newMessage', {
-    from: 'Admin',
-    text: 'Welcome to the chat app',
-    createAt: new Date().getTime()
-  });
+  socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
-  // socket.broadcast.emit "emits" to very specific user
-  // socket.broadcast.emit from Admin text New user joined
-  socket.broadcast.emit('newMessage', {
-    from: 'Admin',
-    text: 'New user joined',
-    createAt: new Date().getTime()
-  });
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
   socket.on('createMessage', (message) => {
     console.log('Create Message', message);
 
-    //io.emit "emits" to every connected connection
-    io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
-      createAt: new Date().getTime()
-    });
+    io.emit('newMessage', generateMessage(message.from, message.text));
   });
 
   socket.on('disconnect', () => {
@@ -46,7 +35,14 @@ io.on('connection', (socket) => {
   });
 });
 
-/* Here express uses a build-in http module to create a web server. Here app.listen means http.createServer internally */
+/* Here express uses a build-in http module to create a web server.
+  Here app.listen means http.createServer internally */
 server.listen(port, () => {
   console.log(`Server is up on port: ${port}`);
 });
+
+
+// NOTE:
+//   socket.emit "emits" to a single connection
+//   io.emit "emits" to every connected connection
+//   socket.broadcast.emit "emits" to very specific user
