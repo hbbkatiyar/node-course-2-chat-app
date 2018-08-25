@@ -15,15 +15,25 @@ io.on('connection', (socket) => {
 
   // First argument is event name & second one is data
   // socket.emit "emits" to a single connection
-  /* socket.emit('newMessage', {
-    from: 'ansh.katiyar@example.com',
-    text: 'Hey. How r u?',
+  // socket.emit from Admin text Welcome to the chat app
+  socket.emit('newMessage', {
+    from: 'Admin',
+    text: 'Welcome to the chat app',
     createAt: new Date().getTime()
-  }); */
+  });
+
+  // socket.broadcast.emit "emits" to very specific user
+  // socket.broadcast.emit from Admin text New user joined
+  socket.broadcast.emit('newMessage', {
+    from: 'Admin',
+    text: 'New user joined',
+    createAt: new Date().getTime()
+  });
 
   socket.on('createMessage', (message) => {
     console.log('Create Message', message);
-    // io.emit "emits" to every connected connection
+
+    //io.emit "emits" to every connected connection
     io.emit('newMessage', {
       from: message.from,
       text: message.text,
