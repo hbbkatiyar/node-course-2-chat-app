@@ -11,3 +11,9 @@ https://links.mead.io/deparam
 // io.emit -> io.to('The Office Fans').emit
 // socket.broadcast.emit -> socket.broadcast.to('The Office Fans').emit
 // socket.emit
+
+
+Addition Feature:
+  Make Chat Room Case in-sensitive
+  Reject the same username if someone try to copy and paste the entire url from address bar
+  While joining a chat room, just display a dropdown in addition with textbox having all the active chat rooms
