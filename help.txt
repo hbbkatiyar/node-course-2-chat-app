@@ -5,3 +5,9 @@ http://localhost:3000/socket.io/socket.io.js
 
 https://links.mead.io/chat-css
 https://links.mead.io/deparam
+
+// socket.leave('The Office fans')
+
+// io.emit -> io.to('The Office Fans').emit
+// socket.broadcast.emit -> socket.broadcast.to('The Office Fans').emit
+// socket.emit
