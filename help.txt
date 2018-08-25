@@ -4,3 +4,4 @@ http://localhost:3000/socket.io/socket.io.js
 
 
 https://links.mead.io/chat-css
+https://links.mead.io/deparam
