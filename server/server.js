@@ -24,10 +24,11 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('Create Message', message);
 
     io.emit('newMessage', generateMessage(message.from, message.text));
+    callback('This is from the server');
   });
 
   socket.on('disconnect', () => {
@@ -46,3 +47,4 @@ server.listen(port, () => {
 //   socket.emit "emits" to a single connection
 //   io.emit "emits" to every connected connection
 //   socket.broadcast.emit "emits" to very specific user
+//  Event acknowledge
