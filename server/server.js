@@ -41,9 +41,10 @@ io.on('connection', (socket) => {
 
   socket.on('createMessage', (message, callback) => {
     var user = users.getUser(socket.id);
+    console.log(message);
 
     if (user && isRealString(message.text)) {
-      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text, message.color));
     }
 
     callback();
@@ -62,7 +63,7 @@ io.on('connection', (socket) => {
 
     if (user) {
       io.to(user.room).emit('updateUserList', users.getUserList(user.room));
-      io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left`));
+      io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left`, '#FF0000'));
     }
   });
 });

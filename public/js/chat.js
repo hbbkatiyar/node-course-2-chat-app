@@ -47,11 +47,14 @@ socket.on('updateUserList', function (users) {
 });
 
 socket.on('newMessage', function (message) {
+  console.log(message);
+  
   var formattedTime = moment(message.createdAt).format('h:mm a');
   var template = jQuery('#message-template').html();
   var html = Mustache.render(template, {
     text: message.text,
     from: message.from,
+    color: message.color,
     createdAt: formattedTime
   });
 
@@ -75,10 +78,14 @@ socket.on('newLocationMessage', function(message) {
 jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
   var messageTextBox = jQuery('[name=message]');
+  var colorStyle = jQuery('#colorStyle');
+  var color = colorStyle.val();
+
+  console.log(color);
 
   socket.emit('createMessage', {
+    color,
     text: _showEmoji(messageTextBox.val())
-    //text: messageTextBox.val()
   }, function() {
     messageTextBox.val('')
   });
